@@ -1,5 +1,4 @@
 import random
-import asyncio
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, ContextTypes
 
@@ -44,6 +43,7 @@ async def next_round(context, user, round_num):
         reply_markup=keyboard()
     )
 
+    import asyncio
     await asyncio.sleep(4)
 
     if context.user_data.get("round") == round_num:
@@ -92,10 +92,10 @@ async def leaderboard(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text += f"{i}. {score} punti\n"
     await update.message.reply_text(text)
 
-app = ApplicationBuilder().token(TOKEN).build()
-app.add_handler(CommandHandler("start", start))
-app.add_handler(CommandHandler("play", play))
-app.add_handler(CommandHandler("leaderboard", leaderboard))
-app.add_handler(CallbackQueryHandler(button))
-
-app.run_polling()
+if __name__ == "__main__":
+    app = ApplicationBuilder().token(TOKEN).build()
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("play", play))
+    app.add_handler(CommandHandler("leaderboard", leaderboard))
+    app.add_handler(CallbackQueryHandler(button))
+    app.run_polling()
